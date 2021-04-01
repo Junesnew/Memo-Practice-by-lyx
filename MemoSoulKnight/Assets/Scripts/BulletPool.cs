@@ -9,7 +9,7 @@ public class BulletPool : MonoBehaviour   //子弹池脚本，该脚本本身问
     private List<GameObject> Pool3;
     private List<GameObject> Pool4;
     private List<GameObject> Pool5;
-    private int[] num= { 0 ,-1,-1,-1,-1,-1};
+    public int[] num = { 0, -1, -1, -1, -1, -1 };
     GameObject preset1;
     GameObject preset2;
     GameObject preset3;
@@ -23,7 +23,7 @@ public class BulletPool : MonoBehaviour   //子弹池脚本，该脚本本身问
     // Start is called before the first frame update
     void Start()
     {
-       preset1 = (GameObject)Resources.Load("Preset/Bullet/Bullet1");
+        preset1 = (GameObject)Resources.Load("Preset/Bullet/Bullet1");
         preset2 = (GameObject)Resources.Load("Preset/Bullet/Bullet2");
         preset3 = (GameObject)Resources.Load("Preset/Bullet/Bullet3");
         preset4 = (GameObject)Resources.Load("Preset/Bullet/Bullet4");
@@ -34,29 +34,30 @@ public class BulletPool : MonoBehaviour   //子弹池脚本，该脚本本身问
     // Update is called once per frame
     void Update()
     {
-     
-       
+
+
     }
-    public void getBullet(int i, Vector3 angle, float speed,Vector3 position)//i指子弹序号,这个angle是三维向量，但z要为零
+    public void getBullet(int i, Vector3 angle, float speed, Vector3 position)//i指子弹序号,这个angle是三维向量，但z要为零
     {
         GameObject temp;
-        switch(i)
+        switch (i)
         {
-            case 1: 
+            case 1:
                 if (num[i] != -1)
                 {
                     pool1[num[i]].SetActive(true);
-                    
+
                     pool1[num[i]].GetComponent<BulletMove>().angle = angle;
                     pool1[num[i]].GetComponent<BulletMove>().speed = speed;
-                    pool1[num[i]].GetComponent<BulletMove>().position  = position;
+                    pool1[num[i]].GetComponent<BulletMove>().position = position;
                     pool1[num[i]].GetComponent<BulletMove>().reStart();
+                    pool1.Remove(pool1[num[i]]);
                     num[i]--;
 
                 }
                 else
                 {
-                    temp =Instantiate(preset1);
+                    temp = Instantiate(preset1);
                     temp.GetComponent<BulletMove>().angle = angle;
                     temp.GetComponent<BulletMove>().speed = speed;
                     temp.GetComponent<BulletMove>().position = position;
@@ -66,11 +67,12 @@ public class BulletPool : MonoBehaviour   //子弹池脚本，该脚本本身问
                 if (num[i] != -1)
                 {
                     pool2[num[i]].SetActive(true);
-                   
+
                     pool2[num[i]].GetComponent<BulletMove>().angle = angle;
                     pool2[num[i]].GetComponent<BulletMove>().speed = speed;
                     pool2[num[i]].GetComponent<BulletMove>().position = position;
                     pool2[num[i]].GetComponent<BulletMove>().reStart();
+                    pool2.Remove(pool2[num[i]]);
                     num[i]--;
 
                 }
@@ -86,17 +88,18 @@ public class BulletPool : MonoBehaviour   //子弹池脚本，该脚本本身问
                 if (num[i] != -1)
                 {
                     pool3[num[i]].SetActive(true);
-                   
+
                     pool3[num[i]].GetComponent<BulletMove>().angle = angle;
                     pool3[num[i]].GetComponent<BulletMove>().speed = speed;
                     pool3[num[i]].GetComponent<BulletMove>().position = position;
                     pool3[num[i]].GetComponent<BulletMove>().reStart();
+                    pool3.Remove(pool3[num[i]]);
                     num[i]--;
 
                 }
                 else
                 {
-                   
+
                     temp = Instantiate(preset3);
                     temp.GetComponent<BulletMove>().angle = angle;
                     temp.GetComponent<BulletMove>().speed = speed;
@@ -107,11 +110,12 @@ public class BulletPool : MonoBehaviour   //子弹池脚本，该脚本本身问
                 if (num[i] != -1)
                 {
                     pool4[num[i]].SetActive(true);
-                  
+
                     pool4[num[i]].GetComponent<BulletMove>().angle = angle;
                     pool4[num[i]].GetComponent<BulletMove>().speed = speed;
                     pool4[num[i]].GetComponent<BulletMove>().position = position;
                     pool4[num[i]].GetComponent<BulletMove>().reStart();
+                    pool4.Remove(pool4[num[i]]);
                     num[i]--;
 
                 }
@@ -127,11 +131,12 @@ public class BulletPool : MonoBehaviour   //子弹池脚本，该脚本本身问
                 if (num[i] != -1)
                 {
                     pool5[num[i]].SetActive(true);
-                 
+
                     pool5[num[i]].GetComponent<BulletMove>().angle = angle;
                     pool5[num[i]].GetComponent<BulletMove>().speed = speed;
                     pool5[num[i]].GetComponent<BulletMove>().position = position;
                     pool5[num[i]].GetComponent<BulletMove>().reStart();
+                    pool5.Remove(pool5[num[i]]);
                     num[i]--;
 
                 }
@@ -157,7 +162,7 @@ public class BulletPool : MonoBehaviour   //子弹池脚本，该脚本本身问
         else if (go.name == "Bullet4(Clone)") i = 4;
         else i = 5;
         num[i]++;
-        switch(i)
+        switch (i)
         {
             case 1:
                 pool1.Add(go);

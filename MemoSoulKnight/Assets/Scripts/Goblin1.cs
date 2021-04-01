@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Goblin1 : MonoBehaviour
+//{
+
+
+
+
+//}
+
+
+
+
 {
-  /*
-   * 待补充：
-   * 精英状态
-   * 掉落物，添加在死亡效果
-   */
+    /*
+     * 待补充：
+     * 精英状态
+     * 掉落物，添加在死亡效果
+     */
     // Start is called before the first frame update
     public bool isElite = false;
     public bool isDeath = false;
     public bool isShooter = true;
     public static float coolingTime = 3.0f;
     public float CoolingTime;
-    public int life=8;
-    public bool CanAttack = false;
+    public int life = 8;
+    public bool CanAttack = true;
 
 
     void Start()
@@ -33,12 +43,14 @@ public class Goblin1 : MonoBehaviour
             {
                 CoolingTime -= Time.deltaTime;
             }
-           else
+            else
             {
                 if (CanAttack)
-                    Attack();
+                { Attack();//冷却时间重置
+                    
+                }
                 else Prepare();
-                CoolingTime = coolingTime;
+               
             }
         }
 
@@ -54,20 +66,21 @@ public class Goblin1 : MonoBehaviour
                 {
                     life -= 4;
                 }
-                else { life = 0; isDeath = true;this.gameObject.GetComponent<MoveAnimation>().isDeath = true; }//死亡后更改相关设置
+                else { life = 0; isDeath = true; this.gameObject.GetComponent<MoveAnimation>().isDeath = true; }//死亡后更改相关设置
                 GameObject.Find("Player").GetComponent<BulletPool>().recycleBullet(go);
             }
         }
     }
 
-   public virtual void Attack()
+    public void Attack()
     {
-     //不同怪物攻击方式
+        //不同怪物攻击方式
         GameObject go = GameObject.Find("Player");
         float x = go.transform.position.x;
         float y = go.transform.position.y;
-        GameObject.Find("Player").GetComponent<BulletPool>().getBullet(5,new Vector3 (x-this.transform.position .x,y-this.transform .position .y ,0),1.6f,this.transform.position );
-    }
+        GameObject.Find("Player").GetComponent<BulletPool>().getBullet(5, new Vector3(x - this.transform.position.x, y - this.transform.position.y, 0), 1.6f, this.transform.position);
+        CoolingTime = coolingTime;
+    }//向玩家发射一颗子弹
     public virtual void Prepare()
     {
 

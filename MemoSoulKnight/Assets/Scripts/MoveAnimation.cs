@@ -16,7 +16,7 @@ public class MoveAnimation : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (!isDeath)//没死的话，永远面朝玩家
         {

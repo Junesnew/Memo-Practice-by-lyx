@@ -12,7 +12,7 @@ public class Cam : MonoBehaviour//这是控制镜头的脚本，别改
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         this.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, -1);
     }

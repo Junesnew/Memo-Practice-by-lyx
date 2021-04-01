@@ -15,6 +15,15 @@ using UnityEngine;
  *奖励房间：特殊房间
  *其他：
  *SL大法，想个办法保存数据？ 
+ *
+ *
+ *
+ *
+ *武器切换：地上与手里；主手解除父子关系，睡眠，地上建立父子关系，激活；播放音效
+ *主手与副手；播放音效；主手关闭，副手打开；
+ *武器有激活状态与睡眠状态；
+ *
+ *
  */
 public class Player : MonoBehaviour  //最特殊的脚本，需要好多细节的优化
 {
@@ -22,30 +31,76 @@ public class Player : MonoBehaviour  //最特殊的脚本，需要好多细节�
     public int shield = 6;
     public int energy = 200;
     public bool death = false;
-    enum Weapon { gun,sword,bow,staff,hand};
-    Weapon mainWeapon, viceWeapon;
-
+    public bool isPoisoning = false;
+    public float reShieldTime = 4f;
+    float ReShieldTime = 0f;//计时器
+  //  string[] weaponName = { "Empty","OldGun", "ShotGun", "Hand", "Knife", "Gatling", "Hammer", "Bow", "SniperGun" };
+   public GameObject mainWeapon, viceWeapon;
     // Start is called before the first frame update
     void Start()
     {
         life = 6;
         shield = 6;
         energy = 200;
-        mainWeapon =Weapon.gun;
+        death = false;
+        isPoisoning = false;
+        //   mainName = weaponName[1];
+        {
+            mainWeapon = (GameObject)Instantiate(Resources.Load("Preset/Weapon/OldGun"));
+            mainWeapon.transform.parent = this.gameObject.transform;
+            mainWeapon.transform.localPosition  = Vector3.zero;
+            //mainWeapon.isSleep = false;
+            viceWeapon = null;
+            //初始化主副武器
+        }
+       // viceName = weaponName[0];
+
     }
     // Update is called once per frame
     void Update()
     {
-        if (life <= 0) death = true;
+        {//生命与盾检测
+            float t = 1f;//计时器
+            if (life <= 0) death = true;
+            if (ReShieldTime >= 0)
+            {
+                ReShieldTime -= Time.deltaTime;
+            }
+            else if (shield < 6)
+            {
+                if (t <= 0)
+                {
+                    shield++;
+                    t = 1f;
+                }
+                else t -= Time.deltaTime;
+            }
+        }
+        {//交换主副手武器
+            GameObject weapon;
+            int w =(int) Input.GetAxis("Mouse ScrollWheel");
+            if(w!=0)
+            {
+              //播放音效
+                if(viceWeapon!=null)
+                {
+                    weapon = mainWeapon;
+                    mainWeapon = viceWeapon;
+                    viceWeapon = weapon;
+                    mainWeapon.SetActive(true);
+                    viceWeapon.SetActive(false);//待测试，不知道行不行
+                }
+
+            }
+        }
     }
-   
     private void OnTriggerEnter2D(Collider2D collision)
     {
         int i;
         GameObject go = collision.gameObject;
         if(go.tag=="EnemyBullet")
         {
-
+            ReShieldTime = reShieldTime;
             if (go.name == "Bullet1(Clone)") i = 4;
             else if (go.name == "Bullet2(Clone)") i = 2;
             else if (go.name == "Bullet3(Clone)") i = 5;
@@ -61,6 +116,31 @@ public class Player : MonoBehaviour  //最特殊的脚本，需要好多细节�
             }
             this.gameObject.GetComponent<BulletPool>().recycleBullet(go);
 
+
+        }
+    }
+   public void pickUp(GameObject pick)
+    {
+   if(viceWeapon==null)
+        {
+            viceWeapon = mainWeapon;
+            viceWeapon.SetActive(false);
+            mainWeapon = pick;
+            mainWeapon.transform.parent = this.transform;
+            mainWeapon.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            viceWeapon.SetActive(true);
+            this.transform.DetachChildren();
+            viceWeapon.transform.parent = this.transform;
+            viceWeapon.transform.localPosition = Vector3.zero;
+            viceWeapon.SetActive(false);
+          //  mainWeapon.isSleep = true;//代码先欠着
+            mainWeapon = pick;
+            mainWeapon.transform.parent = this.transform;
+            mainWeapon.transform.localPosition = Vector3.zero;
+         //   mainWeapon.isSleep = false ;
 
         }
     }
