@@ -1,3 +1,3 @@
 # Memo-Practice-by-lyx
-hello world!
+hello world!  
 主文件在master分支上
