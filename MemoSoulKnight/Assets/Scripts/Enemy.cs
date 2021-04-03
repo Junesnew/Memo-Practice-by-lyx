@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     public static float coolingTime = 3.0f;      //攻击最短冷却时间
     public float CoolingTime;//计时器
     public int life = 8;//生命值
+    public int damage;
     public int AttackPower = 4;
     public bool CanAttack = false;
     void Start()
@@ -25,8 +26,20 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if(life<=0)
+        {
+            isDeath = true;
+        }
         if (!isDeath)
         {
+            damage = this.GetComponent<EnemyPara>().damage;
+            if (damage >0)
+            {
+                life -= damage;
+                this.GetComponent<EnemyPara>().damage = 0;
+                damage = 0;
+            }
             if (CoolingTime > 0)
             {
                 CoolingTime -= Time.deltaTime;
@@ -40,23 +53,6 @@ public class Enemy : MonoBehaviour
         }
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!isDeath)
-        {
-            GameObject go = collision.gameObject;
-            if (go.tag == "PlayerBullet")
-            {
-                if (life - 4 > 0)
-                {
-                    life -= 4;
-                }
-                else { life = 0; isDeath = true; this.gameObject.GetComponent<MoveAnimation>().isDeath = true; }//死亡后更改相关设置
-                GameObject.Find("Player").GetComponent<BulletPool>().recycleBullet(go);
-            }
-        }
-    }
-
     public virtual void Attack()
     {
         //不同怪物攻击方式

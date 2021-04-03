@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BulletMove : MonoBehaviour
 {
-    //子弹通过transform移动，应该改为刚体移动，否则会冲突
-    //子弹刚体移动/主动攻击 与现在的被动吸收伤害冲突，不利于代码拓展性
     public float speed;
     public int damage;
     public bool isPoison;
@@ -28,7 +26,7 @@ public class BulletMove : MonoBehaviour
        angle = angle / Mathf.Sqrt(angle.x * angle.x + angle.y * angle.y);   //单位向量
    
     }
-    public void reStart()               //跟上面完全一样
+    public void reStart()              //跟上面完全一样
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>(); 
         obj = GameObject.Find("Player");                  
@@ -50,6 +48,34 @@ public class BulletMove : MonoBehaviour
         else{ obj.GetComponent<BulletPool>().recycleBullet(this.gameObject); }
 
         rb.velocity = new Vector2(angle.x * speed*Time .deltaTime*100 , angle.y * speed*Time .deltaTime*100 );
-        // this.transform.position += angle * speed * Time.deltaTime;
+       
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        int i;
+        if (collision.tag=="Wall")//撞墙直接消失
+        {
+            obj.GetComponent<BulletPool>().recycleBullet(this.gameObject);
+        }
+        if(collision.tag=="Player"&&(this.tag=="EnemyBullet"))
+        {
+            if (this.name == "Bullet1(Clone)") i = 4;
+            else if (this.name == "Bullet2(Clone)") i = 2;
+            else if (this.name == "Bullet3(Clone)") i = 5;
+            else i = 3;
+            obj.GetComponent<Player>().damage = i;
+            if (i == 4) obj.GetComponent<Player>().PoisonTime = 4f;
+            obj.GetComponent<BulletPool>().recycleBullet(this.gameObject);
+        }
+        if(collision.tag=="Enemy"&&this.tag=="PlayerBullet")
+        {
+            collision.gameObject.GetComponent<EnemyPara>().damage = 4;
+            obj.GetComponent<BulletPool>().recycleBullet(this.gameObject);
+        }
+        if(collision.tag=="Box")
+        {
+            collision.GetComponent<Box>().Clear();
+            obj.GetComponent<BulletPool>().recycleBullet(this.gameObject);
+        }
     }
 }

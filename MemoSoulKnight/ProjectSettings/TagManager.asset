@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - PlayerPet
   - Wall
+  - Weapon
+  - Box
   layers:
   - Default
   - TransparentFX

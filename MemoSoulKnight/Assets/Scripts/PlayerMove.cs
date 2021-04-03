@@ -5,18 +5,26 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour   //控制wasd移动与转向，刚体移动
 {
     public Rigidbody2D rb;
-    public float speed = 0f;
+    public float speed = 6f;
     public float face = 0f;
+    public float speederTime;
+    public float deltaSpeed;
     // Start is called before the first frame update
     void Start()
     {
-        
+        speederTime = 0f;
+        deltaSpeed = 0f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        
+        if (speederTime > 0)
+        {
+            speed = 6 + deltaSpeed;
+            speederTime -= Time.deltaTime;
+        }
+        else { speed = 6f; }
         float face = Input.GetAxisRaw("Horizontal");
         if(face!=0)this.transform.localScale = new Vector3(face, 1, 1);
         float H = Input.GetAxis("Horizontal");
