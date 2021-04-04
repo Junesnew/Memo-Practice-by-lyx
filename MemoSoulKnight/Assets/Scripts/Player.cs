@@ -14,11 +14,6 @@ using UnityEngine;
  *其他：
  *SL大法，想个办法保存数据？ 
  *
- *
- *
- *
- *
- *
  */
 public class Player : MonoBehaviour  //最特殊的脚本，需要好多细节的优化
 {
@@ -36,9 +31,18 @@ public class Player : MonoBehaviour  //最特殊的脚本，需要好多细节�
     public float SkillTime=0f;
     public GameObject skillGun;
     public AudioSource hurtAudio;
+   public  GameObject Hand;
     //  string[] weaponName = { "Empty","OldGun", "ShotGun", "Hand", "Knife", "Gatling", "Hammer", "Bow", "SniperGun" };
     public GameObject mainWeapon, viceWeapon;
     // Start is called before the first frame update
+    private void Awake()
+    {
+
+        Hand = (GameObject)Instantiate(Resources.Load("Preset/Weapon/Hand"));
+        Hand.transform.parent = this.gameObject.transform;
+        Hand.transform.localPosition = Vector3.zero;
+        Hand.GetComponent<WeaponPara>().isSleep = true;
+    }
     void Start()
     {
         i = t = 1f;
@@ -54,6 +58,8 @@ public class Player : MonoBehaviour  //最特殊的脚本，需要好多细节�
             mainWeapon.transform.localPosition  = Vector3.zero;
             mainWeapon.transform.localScale = Vector3.one;
             mainWeapon.GetComponent<WeaponPara>().isSleep  = false;
+         
+
             viceWeapon = null;
             //初始化主副武器
         }

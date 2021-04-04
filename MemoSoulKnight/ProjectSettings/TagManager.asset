@@ -12,6 +12,9 @@ TagManager:
   - Wall
   - Weapon
   - Box
+  - Bottle
+  - Slash
+  - Chest
   layers:
   - Default
   - TransparentFX

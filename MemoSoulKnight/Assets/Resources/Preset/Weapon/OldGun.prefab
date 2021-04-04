@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2275130063567260579}
   - component: {fileID: 2275130063567260577}
   - component: {fileID: 932488324}
-  - component: {fileID: 932488325}
   - component: {fileID: 5293776641772074050}
   - component: {fileID: 466450966}
+  - component: {fileID: 4181144067443160298}
   m_Layer: 0
   m_Name: OldGun
   m_TagString: Weapon
@@ -111,21 +111,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.13, y: 0.09}
   m_EdgeRadius: 0
---- !u!114 &932488325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2275130063567260578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579dda4b63f52dd42acf52cfaeacbfd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coolingTime: 0.4
-  CoolingTime: 0
-  isSleep: 1
 --- !u!114 &5293776641772074050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,3 +220,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4181144067443160298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2275130063567260578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fff98c9e22eb7bc4f824e3b59fc82cbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 0}
+  coolingTime: 0.4
+  CoolingTime: 0
+  isSleep: 0
+  gunAudio: {fileID: 0}
+  energy: 0
+  angle: 0
