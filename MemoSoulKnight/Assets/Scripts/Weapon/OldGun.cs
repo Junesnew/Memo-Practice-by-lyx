@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class OldGun : Weapon  //武器原型
 {
+     
 }

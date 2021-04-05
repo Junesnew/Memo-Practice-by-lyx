@@ -217,7 +217,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -265,6 +265,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  isElite: 0
+  isDeath: 0
+  Room: {fileID: 0}
 --- !u!114 &4343436403377356526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139bd2c119213e942aa64a97775de668, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSleep: 0
   isElite: 0
   isDeath: 0
   isShooter: 1
@@ -293,3 +297,4 @@ MonoBehaviour:
   player: {fileID: 0}
   moveT: 0
   moveD: 0
+  elite: 0

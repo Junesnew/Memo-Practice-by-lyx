@@ -23,6 +23,8 @@ public class Box : MonoBehaviour
         else if(name=="ExplodeBox")
         {
             go=(GameObject)Instantiate(Resources.Load("Preset/Bullet/Explode"));
+            go.GetComponent<Explode>().canHurtE = true;
+            go.GetComponent<Explode>().canHurtP = true;
             go.transform.position = this.transform.position;
             Destroy(this.gameObject);
         }

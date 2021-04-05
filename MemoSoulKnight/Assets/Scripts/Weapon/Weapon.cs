@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public int num;
     public GameObject obj;
     public float coolingTime = 0.4f;
     public float CoolingTime;

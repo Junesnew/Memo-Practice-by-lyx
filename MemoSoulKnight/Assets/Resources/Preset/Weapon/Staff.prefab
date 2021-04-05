@@ -124,6 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSleep: 0
+  price: 0
+  num: 8
 --- !u!114 &1354709824807088131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368d357c3d9c8de45abea9e920782f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  num: 0
   obj: {fileID: 0}
   coolingTime: 0.4
   CoolingTime: 0

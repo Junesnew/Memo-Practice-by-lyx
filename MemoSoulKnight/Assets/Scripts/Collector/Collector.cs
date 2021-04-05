@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 //互动的对象有：宝箱；有价格的武器；雇佣兵；
 public class Collector : MonoBehaviour
 {
@@ -8,12 +10,14 @@ public class Collector : MonoBehaviour
     GameObject mainWeapon;
     // Start is called before the first frame update
     GameObject go;
+    GameObject Prices;
     // Start is called before the first frame update
     void Start()
     {
+        Prices = GameObject.Find("Price");
+        Prices.SetActive(false);
         weapon = null;
         go = GameObject.Find("Player");
-
         mainWeapon = GameObject.Find("Player").GetComponent<Player>().Hand;
           
     }
@@ -25,7 +29,19 @@ public class Collector : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             if (weapon != null)
-                go.GetComponent<Player>().pickUp(weapon);
+            {
+                if (go.GetComponent<Player>().coin >= weapon.GetComponent<WeaponPara>().price)
+                {
+                    if (weapon != null)
+                        go.GetComponent<Player>().pickUp(weapon);
+
+                    go.GetComponent<Player>().coin -= weapon.GetComponent<WeaponPara>().price;
+
+
+                }
+                else { }
+            } //金币不足
+            Prices.SetActive(false);
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,10 +49,11 @@ public class Collector : MonoBehaviour
 
         if ((collision.tag == "Weapon") && (collision.GetComponent<WeaponPara>().isSleep == true))
         {
-
+            
             //弹出gui
             weapon = collision.gameObject;
-
+            Prices.SetActive(true);
+            Prices.GetComponent<Text>().text = "Price:" + weapon.GetComponent<WeaponPara>().price;
         }
      
         //还有与箱子的互动代码；
@@ -45,7 +62,7 @@ public class Collector : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
-            mainWeapon.GetComponent<WeaponPara>().isSleep = true;
+            mainWeapon.GetComponent<WeaponPara>().isSleep = true;//这里的mainweapon是手刀
             GameObject.Find("Player").GetComponent<Player>().mainWeapon.GetComponent<WeaponPara>().isSleep = false;
         }
         if (collision.gameObject == weapon)
@@ -57,7 +74,7 @@ public class Collector : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(collision.tag =="Enemy"&&collision.GetComponent<MoveAnimation>().isDeath==false)
+        if(collision.tag =="Enemy"&&collision.GetComponent<MoveAnimation>().isDeath==false) //手刀
         {
             mainWeapon.GetComponent<WeaponPara>().isSleep = false;
             GameObject.Find("Player").GetComponent<Player>().mainWeapon.GetComponent<WeaponPara>().isSleep = true;
@@ -111,6 +128,7 @@ public class Collector : MonoBehaviour
 
             }
         }
+
         if (collision.tag == "Chest" && collision.name == "WeaponChest(Clone)")
         {
             if (Input.GetKeyDown(KeyCode.F))
@@ -125,6 +143,30 @@ public class Collector : MonoBehaviour
                 Destroy(collision.gameObject);
             }
         }
-        
+        if (collision.tag == "PlayerPet" )//雇佣兵
+        {
+
+            //显示UI
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                if (GameObject.Find("Player").GetComponent<Player>().coin >= 30)
+                {
+                    GameObject.Find("Player").GetComponent<Player>().coin -= 30;
+                    collision.GetComponent<Frog>().isSleep = false;
+                }
+                else { }//金币不足
+
+            }
+        }
+        if (collision.tag == "Portal")
+        {
+
+            //显示UI
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+
+                SceneManager.LoadScene(GameObject.Find("SaveLoad").GetComponent<SaveLoad>().level++);//这里的level是从1开始的
+            }
+        }
     }
 }

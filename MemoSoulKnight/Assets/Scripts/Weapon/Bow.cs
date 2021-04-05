@@ -17,6 +17,7 @@ public class Bow : MonoBehaviour
     Vector3 mousePos;
     float mx, my, x, y;
     bool j;
+    public int num;
     public void Start()
     {
         gunAudio = this.GetComponent<AudioSource>();

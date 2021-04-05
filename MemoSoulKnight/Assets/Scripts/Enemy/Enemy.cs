@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
    * 
    */
     // Start is called before the first frame update
+    public bool isSleep;
     public bool isElite = false;
     public bool isDeath = false;
     public bool isShooter = true;                
@@ -28,41 +29,48 @@ public class Enemy : MonoBehaviour
     public float moveT=0;
     public int moveD=0;
     bool isDrop;
+    public bool elite;
     public virtual void Start()
     {
+        elite = false;
+        isElite = this.GetComponent<EnemyPara>().isElite;
         isDrop = false;
         speed = 0.3f;
         rb = this.GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
         distance = Mathf.Sqrt((player.transform.position.x - this.transform.position.x) * (player.transform.position.x - this.transform.position.x)+(player.transform.position.y - this.transform.position.y) * (player.transform.position.y - this.transform.position.y));
-        if (isElite)
-        {
-           
-            isDeath = false;
-            life =(int)1.5*life;
-            coolingTime = 0.75f * coolingTime;
-            AttackPower = (int)1.5f*AttackPower ;
-            drop = 1;
-            this.transform.localScale = new Vector3(2, 2, 1);
-            attackTime = 4f;
-        }
-        else
-        {
             isDeath = false;
             life = 12;
             coolingTime = 4f;
             AttackPower = 4;
             drop = 3;
             attackTime = 3f;
-        }
     }
     // Update is called once per frame
     void Update()
+
     {
-        
-        if(life<=0)
+
+
+        if (isElite&&!elite)
+        {
+
+            isDeath = false;
+            life = (int)1.5 * life;
+            coolingTime = 0.75f * coolingTime;
+            AttackPower = (int)1.5f * AttackPower;
+            drop = 1;
+            this.transform.localScale = new Vector3(2, 2, 1);
+            attackTime = 4f;
+            elite = true;
+        }
+
+
+        if (life<=0)
         {
             isDeath = true;
+            this.GetComponent<Collider2D>().isTrigger = true;
+            this.GetComponent<EnemyPara>().isDeath = true;
             rb.velocity = Vector2.zero;
             this.GetComponent<MoveAnimation>().isDeath = true;
             if (!isDrop)
@@ -79,7 +87,7 @@ public class Enemy : MonoBehaviour
                 isDrop = true;
             }
         }
-        if (!isDeath)
+        if ((!isDeath)&&(!isSleep))
         {
             Move();
             damage = this.GetComponent<EnemyPara>().damage;

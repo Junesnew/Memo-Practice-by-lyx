@@ -15,6 +15,7 @@ TagManager:
   - Bottle
   - Slash
   - Chest
+  - Portal
   layers:
   - Default
   - TransparentFX

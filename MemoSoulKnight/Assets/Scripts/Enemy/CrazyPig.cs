@@ -15,16 +15,17 @@ public class CrazyPig : Enemy
             if (moveT > 0)
             {
                 moveT -= Time.deltaTime;
-                rb.velocity = (Quaternion.AngleAxis(moveD, new Vector3(0, 0, 1f)) * (new Vector2(1, 0))) * speed; ;
-            }
-            else
-            {
-                moveT = 1f;
                 if (distance <= 1.5)
                 {
                     rb.velocity = new Vector2(x - this.transform.position.x, y - this.transform.position.y) * speed;
                 }
                 else
+                    rb.velocity = (Quaternion.AngleAxis(moveD, new Vector3(0, 0, 1f)) * (new Vector2(1, 0))) * speed; ;
+            }
+            else
+            {
+                moveT = 1f;
+               
                 moveD = Random.Range(-180, 180);
             }
         }

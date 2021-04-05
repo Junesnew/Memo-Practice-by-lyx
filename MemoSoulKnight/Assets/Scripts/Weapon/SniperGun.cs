@@ -6,7 +6,6 @@ public class SniperGun : Weapon
 {
     override public void Attack()
     {
-        int i;
         gunAudio.Play();
         float mx = Input.mousePosition.x;
         float my = Input.mousePosition.y;

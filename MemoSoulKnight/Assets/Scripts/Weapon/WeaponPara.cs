@@ -5,6 +5,8 @@ using UnityEngine;
 public class WeaponPara : MonoBehaviour
 {
     public bool isSleep;
+    public int price=0;
+    public int num;
     void Awake()
     {
         isSleep = true;   
